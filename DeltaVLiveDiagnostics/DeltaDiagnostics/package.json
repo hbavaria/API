@@ -1,0 +1,131 @@
+{
+  "name": "deltav-live-diagnostics-client",
+  "description": "OeWeb Diagnostics Tool",
+  "author": "Kai Fleischman and Josh Leikam, Summer 2019",
+  "scripts": {
+    "start": "webpack-dev-server --env.ENVIRONMENT=development --config webpack.config.dev.js --port 3000",
+    "build": "webpack --env.ENVIRONMENT=production --config webpack.config.prod.js"
+  },
+  "dependencies": {
+    "bootstrap": "4.3.1",
+    "bson-objectid": "^1.3.0",
+    "dotenv": "^8.2.0",
+    "highcharts": "^7.2.1",
+    "highcharts-react-official": "^2.2.2",
+    "object-sizeof": "^1.4.0",
+    "prop-types": "^15.7.2",
+    "react": "16.8.4",
+    "react-bootstrap": "^1.0.0-beta.8",
+    "react-bootstrap-table": "^4.3.1",
+    "react-dom": "16.8.4",
+    "react-icons": "^3.7.0",
+    "react-json-inspector": "^7.1.1",
+    "react-redux": "6.0.1",
+    "react-router-dom": "5.0.0",
+    "react-sidebar": "^3.0.2",
+    "react-treeview": "^0.4.7",
+    "react-virtualized": "^9.21.1",
+    "redux": "4.0.1",
+    "redux-thunk": "2.3.0",
+    "rxjs": "^6.5.2",
+    "socket.io-client": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/bootstrap": "^4.3.0",
+    "@types/prop-types": "^15.7.1",
+    "@types/react": "^16.8.22",
+    "@types/react-bootstrap": "^0.32.18",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-redux": "^7.1.0",
+    "@types/react-router-dom": "^4.3.4",
+    "@types/react-sidebar": "^3.0.0",
+    "@types/react-treeview": "^0.4.2",
+    "@types/redux": "^3.6.0",
+    "@types/redux-immutable-state-invariant": "^2.1.1",
+    "@babel/core": "7.3.4",
+    "@types/d3": "^5.7.2",
+    "@types/node": "^12.0.10",
+    "@types/webpack-env": "^1.13.9",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-eslint": "10.0.1",
+    "babel-loader": "8.0.5",
+    "babel-preset-react-app": "7.0.2",
+    "brotli-webpack-plugin": "^1.1.0",
+    "core-js": "^3.1.4",
+    "css-loader": "2.1.1",
+    "cssnano": "4.1.10",
+    "enzyme": "3.9.0",
+    "enzyme-adapter-react-16": "1.11.2",
+    "eslint": "5.15.2",
+    "eslint-loader": "2.1.2",
+    "eslint-plugin-import": "2.16.0",
+    "eslint-plugin-react": "7.12.4",
+    "fetch-mock": "7.3.1",
+    "html-webpack-plugin": "3.2.0",
+    "http-server": "^0.11.1",
+    "jest": "24.5.0",
+    "json-server": "0.14.2",
+    "mini-css-extract-plugin": "0.5.0",
+    "node-fetch": "^2.3.0",
+    "npm-run-all": "4.1.5",
+    "postcss-loader": "3.0.0",
+    "react-test-renderer": "16.8.4",
+    "react-testing-library": "6.0.0",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-immutable-state-invariant": "2.1.0",
+    "redux-mock-store": "1.5.3",
+    "rimraf": "2.6.3",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "0.23.1",
+    "ts-loader": "^6.0.4",
+    "tsconfig-paths-webpack-plugin": "^3.2.0",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.2",
+    "webpack": "4.29.6",
+    "webpack-bundle-analyzer": "3.1.0",
+    "webpack-cli": "3.3.0",
+    "webpack-dev-server": "3.2.1"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "babel": {
+    "presets": [
+      "babel-preset-react-app"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:import/errors",
+      "plugin:import/warnings"
+    ],
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "es6": true,
+      "jest": true
+    },
+    "rules": {
+      "no-debugger": "off",
+      "no-console": "off",
+      "no-unused-vars": "warn",
+      "react/prop-types": "warn"
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "root": true
+  }
+}

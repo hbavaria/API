@@ -1,0 +1,195 @@
+html,
+body {
+  height: 100%;
+  background-color: #edf2f7;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  --color-background: #22272b;
+  --color-on-background: #000;
+  --color-layer-transparent: rgba(0, 5, 11, 0.9);
+  --color-surface: #2c343a;
+  --color-primary: #67c2e4;
+  --color-on-primary: #000;
+  --color-on-surface: #000;
+}
+
+h1 {
+  color: #369;
+}
+
+/* App Container */
+.app-container {
+  padding: 0px;
+  height: auto;
+  background-color: #edf2f7;
+}
+
+/* Search */
+.control-tag-search {
+  min-height: 250px;
+  margin-bottom: 10%;
+  text-align: center;
+}
+
+.control-tag-form {
+  margin-bottom: 15px;
+}
+
+.display-details-search {
+  text-align: center;
+}
+
+.search-container {
+  height: 100vh;
+}
+
+.display-buttons-container {
+  max-height: 100%;
+}
+
+/* Buttons */
+
+.btn-primary:not(:disabled):not(.disabled).active {
+  background-color: #ec9a29;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #369;
+  border-color: #000;
+}
+
+/* PreRender Display */
+.pre-render-container {
+  position: absolute;
+  transform: matrix(0.65, 0, 0, 0.65, 0, 0);
+  padding: 20px;
+}
+
+.root-container {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+}
+
+.visualOverflowVisible {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.visualOverflowHidden {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.centerTextVertical {
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* DisplayHierarchy / Tree View */
+.tree-view-element {
+  cursor: pointer;
+  margin-left: 25px;
+}
+
+/* Tabs */
+.tab-container {
+  position: relative;
+  z-index: 0;
+}
+
+#header {
+  min-height: 59px;
+  background: #fff;
+}
+
+.page-body {
+  padding: 25px;
+  height: calc(100% - 59px);
+}
+
+.card-body {
+  position: relative;
+  overflow: auto;
+}
+
+/* Sidebar */
+.sidebar-container {
+  padding: 5px;
+  margin-left: 10px;
+}
+
+.paramPathList {
+  height: calc(100% - 94px);
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.paramPathListAndEsig {
+  height: calc(100% - 134px);
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.zIndex {
+  z-index: 0;
+}
+
+.zIndex1 {
+  z-index: 1;
+}
+
+.react-bs-table table td,
+.react-bs-table table th {
+  overflow-wrap: break-word;
+  white-space: pre-line;
+}
+
+.eSig {
+  display: -webkit-inline-box;
+}
+
+.divider {
+  width: 10px;
+  height: auto;
+  display: inline-block;
+}
+
+.performanceTable {
+  padding-top: 10px;
+  height: 50vh;
+  overflow: auto;
+}
+
+.performanceOutput {
+  height: 20vh;
+}
+
+input[type="file"] {
+  color: transparent;
+  cursor: pointer;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn-wrapper input[type="file"] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}

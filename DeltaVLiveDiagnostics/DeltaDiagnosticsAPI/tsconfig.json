@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "target": "es5",
+    "module": "commonjs",
+    "allowJs": true,
+    "outDir": "dist",
+    "strictNullChecks": false,
+    "strictBindCallApply": false,
+    "strictPropertyInitialization": false,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "resolveJsonModule": true
+  },
+  "files": ["./spec/perfTestConfig/basicTest.json"],
+  "include": [
+    "./src/**/*",
+    "./spec/*"
+  ]
+}

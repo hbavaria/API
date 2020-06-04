@@ -1,0 +1,47 @@
+{
+  "settings": {
+    "numIterations": 1,
+    "iterationDelay": 0,
+    "testDelay": 0
+  },
+  "tests": [
+    {
+      "displayName": "AlarmFilter",
+      "isSelected": true,
+      "itemId": "5df7aea44e09e31df7286462",
+      "parameterDtos": [
+        {
+          "path": "THISUSER/ALLAREAFILT.CV"
+        }
+      ],
+      "isItemTesting": false,
+      "jsonSize": "0",
+      "getJsonElapsed": 40.27000000001863,
+      "parseJsonElapsed": 32.27589900000021,
+      "animationScriptSize": "1.214 MB",
+      "eventScriptSize": "179.561 KB",
+      "subscribeElapsed": 172.10859999991953,
+      "lowSubscribeElapsed": 172.10859999991953,
+      "highSubscribeElapsed": 172.10859999991953
+    },
+    {
+      "displayName": "AlarmList",
+      "isSelected": true,
+      "itemId": "5df7b2c2cac5107121e45c55",
+      "parameterDtos": [
+        {
+          "path": "THISUSER/ALLAREAFILT.CV"
+        }
+      ],
+      "isItemTesting": false,
+      "jsonSize": "0",
+      "getJsonElapsed": 0,
+      "parseJsonElapsed": 0,
+      "animationScriptSize": "0",
+      "eventScriptSize": "0",
+      "subscribeElapsed": 0,
+      "lowSubscribeElapsed": 0,
+      "highSubscribeElapsed": 0
+    }
+  ]
+}

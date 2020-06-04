@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+    environment{
+        DELTAV_LIVE_CONFIGURATION = "Debug"
+        DELTAV_LIVE_PLATFORM = "Any CPU"
+    }
+    stages {
+        stage("Generate Environment Variables"){
+            steps{
+                bat "gen_env.cmd"
+            }
+        }
+        stage("Build DeltaV Live Diagnostics") {
+            steps{
+                dir("./DeltaDiagnostics"){
+                    bat "npm ci"
+                    bat "npm run build" 
+                }
+            }
+        }
+        stage("Build DeltaV Live Diagnostics API") {
+            steps{
+                dir("./DeltaDiagnosticsAPI"){
+                    bat "npm ci"
+                    bat "npm run build" 
+                }
+            }
+        }
+        stage("Build DeltaV Live Authentication Service") {
+            steps{
+                dir("./DeltaVLiveAuthToken"){
+                    bat "msbuild DeltaVLiveAuthToken.sln /p:Configuration=${env.DELTAV_LIVE_CONFIGURATION} /p:Platform=\"${env.DELTAV_LIVE_PLATFORM}\"" 
+                }
+            }
+        }
+		stage("Deliver") {
+            steps {
+                echo "delivery placeholder" 
+            }
+        }
+    }
+    post {
+        always {
+            deleteDir() /* clean up our workspace */
+        }
+    }
+}

@@ -1,0 +1,11 @@
+.vs/
+bin/
+build/
+dist/
+node_modules/
+obj/
+packages/
+*.env
+*.env.development
+*.pdb
+*.xml
