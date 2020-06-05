@@ -20,11 +20,11 @@ let CsvSchema = new Schema({
         default: "0"
     },
     Start:{
-        type: String,
+        type: Date,
         default: "0"
     },
     End:{
-        type: String,
+        type: Date,
         default: "0"
     },
     Elapsed_Ms:{
