@@ -12,9 +12,9 @@ router.post("/todos", async (req, res) => {
     if (err) {
       console.log(`Error while connecting to database: ${err}`);
     } else {
-      getRungroup(jsonObj)
+      //getRungroup(jsonObj)
       saveData(jsonObj)
-      getCollectionNames()
+      //storeCollectionNames()
     }
   }
 );
@@ -25,52 +25,68 @@ router.post("/todos", async (req, res) => {
       console.log(error);
     }
 
-    function saveData(jsonObj){
+    async function saveData(jsonObj){
+      let newName = []
+      newName.push(await getCollectionNames())
       for(let index = 0; index < jsonObj.length; index ++){
         for(let i = 0; i < jsonObj[index].length; i ++){
           let run_group = jsonObj[index][i]['Run Group']
-          if(run_group == 'Display_NavigationBar'){
-          let newCsv = new PerformanceEntry({
-          Node : jsonObj[index][i].Node,
-          Session: jsonObj[index][i].Session,
-          Run: jsonObj[index][i].Run,
-          Run_Group: jsonObj[index][i]['Run Group'],
-          Start: jsonObj[index][i].Start,
-          End: jsonObj[index][i].End,
-          Elapsed_Ms:jsonObj[index][i]['Elapsed Ms'] 
-        })
-        newCsv.save((err, result) => {
-          if (err){
-          console.log(err)
-          }
-          //console.log(result)
+          for(let number = 0; number < newName.length; number ++){
+            for(let k = 0; k < newName[number].length; k ++){
+              if(run_group.toUpperCase() == newName[number][k].toUpperCase()){
+                let newCsv = new PerformanceEntry({
+                Node : jsonObj[index][i].Node,
+                Session: jsonObj[index][i].Session,
+                Run: jsonObj[index][i].Run,
+                Run_Group: jsonObj[index][i]['Run Group'],
+                Start: jsonObj[index][i].Start,
+                End: jsonObj[index][i].End,
+                Elapsed_Ms:jsonObj[index][i]['Elapsed Ms'] 
+              })
+            newCsv.save((err, result) => {
+            if (err){
+              console.log(err)
+            }
           })
-        }
-    }
-  }
-}
-
-    function getCollectionNames(){
-      mongoose.connection.db.listCollections().toArray(function (err, names) {
-        if (err) {
-          console.log(err);
-        } else {
-         console.log(names);
-         let name = names[0].name
-         let newName = name.substring(0, name.length - 1);
-         console.log(newName) 
-        }
-  
-        mongoose.connection.close();
-      });
-    }
-  function getRungroup(jsonObj){
-      for(let index = 0; index < jsonObj.length; index ++){
-        for(let i = 0; i < jsonObj[index].length; i ++){
-          let run_group = jsonObj[index][i]['Run Group']
-          console.log(run_group)
+          }
+          else {
+            let newCsv = new PerformanceEntry({
+              Node : jsonObj[index][i].Node,
+              Session: jsonObj[index][i].Session,
+              Run: jsonObj[index][i].Run,
+              Run_Group: jsonObj[index][i]['Run Group'],
+              Start: jsonObj[index][i].Start,
+              End: jsonObj[index][i].End,
+              Elapsed_Ms:jsonObj[index][i]['Elapsed Ms'] 
+            })
+          newCsv.save((err, result) => {
+          if (err){
+            console.log(err)
+          }
+        }) 
+          }
+          }
         }
       }
-     }
+    }
+}
+
+    async function getCollectionNames(){
+      let results = []
+      return new Promise((resolve, reject) => {
+        mongoose.connection.db.listCollections().toArray(function (err, names) {
+        for(let index = 0; index < names.length; index ++){
+          if (err) {
+          reject(err);
+          }
+          let name = names[index].name
+          let newName = name.substring(0, name.length - 1);
+          results.push(newName)
+          resolve(results)    
+        }
+        return results
+      });
+    })
+    }
   });
   export = router;
