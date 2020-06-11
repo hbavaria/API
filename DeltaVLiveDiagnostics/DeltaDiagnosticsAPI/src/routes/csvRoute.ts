@@ -1,5 +1,5 @@
 import express from "express";
-import PerformanceEntry from "../models/performance/Csv";
+//import PerformanceEntry  from '../models/performance/PerformanceEntry'
 const mongoose = require('mongoose')
 const router = express.Router();
 router.post("/todos", async (req, res) => {
@@ -12,25 +12,55 @@ router.post("/todos", async (req, res) => {
     if (err) {
       console.log(`Error while connecting to database: ${err}`);
     } else {
+      var mongoose = require("mongoose");
+var Schema = mongoose.Schema;
+let CsvSchema = new Schema({
+    Node: {
+        type: String,
+        default: "0"
+    },
+    Session: {
+        type: Number,
+        default: 0
+    },
+    Run: {
+        type: String,
+        default: "0"
+    },
+    Run_Group:{
+        type: String,
+        default: "0"
+    },
+    Start:{
+        type: Date,
+        default: "0"
+    },
+    End:{
+        type: Date,
+        default: "0"
+    },
+    Elapsed_Ms:{
+        type: Number,
+        default: 0
+    }
+});
       //getRungroup(jsonObj)
-      saveData(jsonObj)
-      //storeCollectionNames()
+      let PerformanceEntry = mongoose.model(run_group,CsvSchema)
+      saveData(jsonObj,CsvSchema,PerformanceEntry)
     }
   }
 );
-        //let jsonObj = req.body;
-        //saveData(jsonObj)
-        //collection()
     } catch (error) {
       console.log(error);
     }
 
-    async function saveData(jsonObj){
+    async function saveData(jsonObj,CsvSchema, PerformanceEntry){
       let newName = []
       newName.push(await getCollectionNames())
       for(let index = 0; index < jsonObj.length; index ++){
         for(let i = 0; i < jsonObj[index].length; i ++){
           let run_group = jsonObj[index][i]['Run Group']
+          //let PerformanceEntry = mongoose.model(run_group,CsvSchema)
           for(let number = 0; number < newName.length; number ++){
             for(let k = 0; k < newName[number].length; k ++){
               if(run_group.toUpperCase() == newName[number][k].toUpperCase()){
@@ -43,6 +73,7 @@ router.post("/todos", async (req, res) => {
                 End: jsonObj[index][i].End,
                 Elapsed_Ms:jsonObj[index][i]['Elapsed Ms'] 
               })
+              //mongoose.model(run_group)
             newCsv.save((err, result) => {
             if (err){
               console.log(err)
@@ -50,20 +81,21 @@ router.post("/todos", async (req, res) => {
           })
           }
           else {
-            let newCsv = new PerformanceEntry({
+            let newSave = new PerformanceEntry({
               Node : jsonObj[index][i].Node,
               Session: jsonObj[index][i].Session,
               Run: jsonObj[index][i].Run,
               Run_Group: jsonObj[index][i]['Run Group'],
               Start: jsonObj[index][i].Start,
               End: jsonObj[index][i].End,
-              Elapsed_Ms:jsonObj[index][i]['Elapsed Ms'] 
+              Elapsed_Ms:jsonObj[index][i]['Elapsed Ms']
             })
-          newCsv.save((err, result) => {
+            //mongoose.model(run_group);
+            newSave.save((err, result) => {
           if (err){
             console.log(err)
           }
-        }) 
+          }) 
           }
           }
         }
@@ -87,6 +119,6 @@ router.post("/todos", async (req, res) => {
         return results
       });
     })
-    }
+    }  
   });
-  export = router;
+export = router;
