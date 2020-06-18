@@ -1,5 +1,5 @@
 import express from "express";
-//import PerformanceEntry  from '../models/performance/PerformanceEntry'
+let timeStamp = require("mongoose-timestamp")
 const mongoose = require('mongoose')
 const router = express.Router();
 router.post("/todos", async (req, res) => {
@@ -33,20 +33,18 @@ let CsvSchema = new Schema({
     },
     Start:{
         type: Date,
-        default: "0"
+        default: Date.now()
     },
     End:{
         type: Date,
-        default: "0"
+        default: Date.now()
     },
     Elapsed_Ms:{
         type: Number,
         default: 0
     }
 });
-      //getRungroup(jsonObj)
-      let PerformanceEntry = mongoose.model(run_group,CsvSchema)
-      saveData(jsonObj,CsvSchema,PerformanceEntry)
+      saveData(jsonObj,CsvSchema)
     }
   }
 );
@@ -54,53 +52,38 @@ let CsvSchema = new Schema({
       console.log(error);
     }
 
-    async function saveData(jsonObj,CsvSchema, PerformanceEntry){
+    async function saveData(jsonObj,CsvSchema){
       let newName = []
       newName.push(await getCollectionNames())
+      console.log(newName)
       for(let index = 0; index < jsonObj.length; index ++){
         for(let i = 0; i < jsonObj[index].length; i ++){
           let run_group = jsonObj[index][i]['Run Group']
-          //let PerformanceEntry = mongoose.model(run_group,CsvSchema)
-          for(let number = 0; number < newName.length; number ++){
-            for(let k = 0; k < newName[number].length; k ++){
-              if(run_group.toUpperCase() == newName[number][k].toUpperCase()){
-                let newCsv = new PerformanceEntry({
-                Node : jsonObj[index][i].Node,
-                Session: jsonObj[index][i].Session,
-                Run: jsonObj[index][i].Run,
-                Run_Group: jsonObj[index][i]['Run Group'],
-                Start: jsonObj[index][i].Start,
-                End: jsonObj[index][i].End,
-                Elapsed_Ms:jsonObj[index][i]['Elapsed Ms'] 
-              })
-              //mongoose.model(run_group)
-            newCsv.save((err, result) => {
-            if (err){
-              console.log(err)
-            }
-          })
-          }
-          else {
-            let newSave = new PerformanceEntry({
-              Node : jsonObj[index][i].Node,
-              Session: jsonObj[index][i].Session,
-              Run: jsonObj[index][i].Run,
-              Run_Group: jsonObj[index][i]['Run Group'],
-              Start: jsonObj[index][i].Start,
-              End: jsonObj[index][i].End,
-              Elapsed_Ms:jsonObj[index][i]['Elapsed Ms']
-            })
-            //mongoose.model(run_group);
-            newSave.save((err, result) => {
-          if (err){
-            console.log(err)
-          }
-          }) 
-          }
-          }
-        }
-      }
+          mongoose.plugin(timeStamp)  //, {
+            //createdAt: 'created_at',
+            //updatedAt: 'updated_at'
+         // });
+          let PerformanceEntry = mongoose.model(run_group,CsvSchema,run_group)
+          await saveColection(PerformanceEntry, jsonObj, index, i)
     }
+}
+    }
+async function saveColection(PerformanceEntry, jsonObj, index, i){
+  let newSave = new PerformanceEntry({
+    Node : jsonObj[index][i].Node,
+    Session: jsonObj[index][i].Session,
+    Run: jsonObj[index][i].Run,
+    Run_Group: jsonObj[index][i]['Run Group'],
+    Start: jsonObj[index][i].Start,
+    End: jsonObj[index][i].End,
+    Elapsed_Ms:jsonObj[index][i]['Elapsed Ms']
+  })
+  newSave.save((err, result) => {
+  if (err){
+  console.log(err)
+  }
+  //console.log(newSave.createdAt)
+  })   
 }
 
     async function getCollectionNames(){
@@ -112,8 +95,7 @@ let CsvSchema = new Schema({
           reject(err);
           }
           let name = names[index].name
-          let newName = name.substring(0, name.length - 1);
-          results.push(newName)
+          results.push(name)
           resolve(results)    
         }
         return results
