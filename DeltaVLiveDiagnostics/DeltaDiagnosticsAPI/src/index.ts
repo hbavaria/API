@@ -17,7 +17,7 @@ app.use(bodyParser.json({ limit: "50mb" })); //init json parser
 //import routes
 import authRoute from "./routes/auth";
 import perfRoute from "./routes/performance";
-import csvRoute from "./routes/csvRoute";
+import csvRoute from "./routes/StorePerformanceResults";
 
 app.use(express.static("doc")); //serve api documentation files
 
@@ -35,7 +35,7 @@ app.use(
 // init routes
 app.use("/auth", authRoute);
 app.use("/performance", perfRoute);
-app.use ("/csvRoute", csvRoute)
+app.use ("/StorePerformanceResults", csvRoute)
 
 //connect to mongodb
 mongoose.connect(
