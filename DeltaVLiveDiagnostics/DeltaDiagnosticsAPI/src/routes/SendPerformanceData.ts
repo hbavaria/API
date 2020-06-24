@@ -1,38 +1,64 @@
 import express from 'express'
-import router from './auth'
+const router = express.Router()
 const mongoose = require('mongoose')
-//const router = express.Router()
 const MongoClient = require('mongodb').MongoClient
 let url = 'mongodb://localhost:27017'
-router.get()
-async function getCollectionNames(){
-    let results = []
-    return new Promise((resolve, reject) => {
-      mongoose.connection.db.listCollections().toArray(function (err, names) {
-      for(let index = 0; index < names.length; index ++){
-        if (err) {
-        reject(err);
-        }
-        let name = names[index].name
-        results.push(name)
-        resolve(results)    
+router.get("/send" , async (req, res) => {
+    try {
+         getCollectionNames().then((items) => {
+             res.send(items)
+         })
+      } catch (error) {
+        console.log(error);
       }
-      return results
-    });
-  })
-  }
-  async function readData(){
-    let newNames = []
-    newNames.push(await getCollectionNames())
-    console.log(newNames)
-    MongoClient.connect(url, function(err, db) {
-      var db = db.db('admin')
-      for(let index = 0; index < newNames[0].length; index ++){
-      db.collection(newNames[0][index], function(err, collection) {
-        collection.find().toArray(function(err, items){
-          console.log(items)
+    function getCollectionNames(){
+        return new Promise ((resolve, reject) => {
+            MongoClient.connect(url, function(err, db) {
+                if (err){
+                    reject(err)
+                }
+                var db = db.db('admin')
+                mongoose.connection.db.listCollections().toArray(function (err, names) {
+                    resolve(getData(names, err, db).then((items) => {
+                        return items
+                    }))
+                });
+            })
         })
-      })
     }
+    function getData(names, err, db){
+        return new Promise ((resolve, reject) => {
+            if(err){
+                reject(err)
+            }
+            for(let index = 0; index < names.length; index ++){
+                resolve(getResults(err, names, index, db). then((items) => {
+                    return items
+                }))
+            }
+        })
+    }
+    function getResults(err, names, index, db){
+        return new Promise ((resolve, reject) =>{
+            if (err) {
+                reject(err);
+                }
+                let name = names[index].name
+                const collection = db.collection(name)
+                resolve(getCollection(collection).then((items) => {
+                    return items
+                }))
+            })   
+    }
+    function getCollection(collection){
+        return new Promise ((resolve, reject) => {collection.find().toArray(function(err, items){
+            if(err){
+                reject(err)
+            }
+            resolve(items)
+            return items
+        })
     })
-  }
+    } 
+})
+export = router;
