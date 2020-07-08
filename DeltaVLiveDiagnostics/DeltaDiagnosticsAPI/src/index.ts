@@ -19,6 +19,7 @@ import authRoute from "./routes/auth";
 import perfRoute from "./routes/performance";
 import csvRoute from "./routes/StorePerformanceData";
 import sendRoute from "./routes/SendPerformanceData"
+import sendRunGroup from "./routes/sendRunGroup"
 
 app.use(express.static("doc")); //serve api documentation files
 
@@ -38,6 +39,7 @@ app.use("/auth", authRoute);
 app.use("/performance", perfRoute);
 app.use ("/StorePerformanceData", csvRoute)
 app.use("/SendPerformanceData", sendRoute)
+app.use("/sendRunGroup", sendRunGroup)
 
 //connect to mongodb
 mongoose.connect(

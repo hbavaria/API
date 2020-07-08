@@ -1,64 +1,63 @@
 import express from 'express'
 const router = express.Router()
-const mongoose = require('mongoose')
 const MongoClient = require('mongodb').MongoClient
 let url = 'mongodb://localhost:27017'
 router.get("/send" , async (req, res) => {
     try {
-         getCollectionNames().then((items) => {
-             res.send(items)
-         })
+        let data = await getData()
+        let jsonData = JSON.parse(JSON.stringify(data))
+        res.send(jsonData)
       } catch (error) {
         console.log(error);
       }
-    function getCollectionNames(){
-        return new Promise ((resolve, reject) => {
+    async function getData(){
+        return new Promise(async (resolve, reject)=>{
+            let dataBase = []
+            let results  =[]
+            results.push(await setNames())
+            MongoClient.connect(url, async function(err, db) {
+            var db = db.db("admin")
+            for(let index = 0; index < results[0].length; index ++){
+                let data = await readData(db, results, index)
+                dataBase.push(data)
+            }
+            for(let index = 0; index<dataBase.length; index ++){
+                for(let i = 0; i < dataBase[index].length; i++){
+                    dataBase[index][i].Start = new Date(dataBase[index][i].Start)
+                    dataBase[index][i].End = new Date(dataBase[index][i].End)
+                }
+            }
+            resolve(dataBase)
+            return dataBase
+        })
+        })
+    }
+    function setNames(){
+        return new Promise((resolve, reject) =>{
+            let results = []
             MongoClient.connect(url, function(err, db) {
-                if (err){
-                    reject(err)
-                }
-                var db = db.db('admin')
-                mongoose.connection.db.listCollections().toArray(function (err, names) {
-                    resolve(getData(names, err, db).then((items) => {
-                        return items
-                    }))
-                });
-            })
-        })
-    }
-    function getData(names, err, db){
-        return new Promise ((resolve, reject) => {
-            if(err){
-                reject(err)
-            }
-            for(let index = 0; index < names.length; index ++){
-                resolve(getResults(err, names, index, db). then((items) => {
-                    return items
-                }))
-            }
-        })
-    }
-    function getResults(err, names, index, db){
-        return new Promise ((resolve, reject) =>{
-            if (err) {
-                reject(err);
-                }
+            var db = db.db("admin")
+            db.listCollections().toArray(async function (err, names) {
+            for(let index = 0 ; index < names.length; index ++){
                 let name = names[index].name
-                const collection = db.collection(name)
-                resolve(getCollection(collection).then((items) => {
-                    return items
-                }))
-            })   
-    }
-    function getCollection(collection){
-        return new Promise ((resolve, reject) => {collection.find().toArray(function(err, items){
-            if(err){
-                reject(err)
+                if(name.startsWith("PerfData_") == true){
+                    let newName = name
+                    results.push(newName)
+                    resolve(results)
+                }
             }
-            resolve(items)
-            return items
+            return results
         })
     })
-    } 
+    })
+}
+function readData(db, results, index){
+    return new Promise((resolve, reject)=>{
+    db.collection(results[0][index]).find().toArray((function(err, data){
+        resolve(data)
+        return data
+    }))
+})
+}
 })
 export = router;

@@ -46,8 +46,9 @@ router.post("/todos", async (req, res) => {
       for(let index = 0; index < jsonObj.length; index ++){
         for(let i = 0; i < jsonObj[index].length; i ++){
           let run_group = jsonObj[index][i]['Run Group']
+          let runGroup = 'PerfData_' + run_group
           mongoose.plugin(timeStamp)
-          let PerformanceEntry = mongoose.model(run_group,CsvSchema,run_group)
+          let PerformanceEntry = mongoose.model(runGroup,CsvSchema,runGroup)
           await saveColection(PerformanceEntry, jsonObj, index, i)
     }
     }
