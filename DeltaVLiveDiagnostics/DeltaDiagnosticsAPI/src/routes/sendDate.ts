@@ -2,15 +2,22 @@ import express from 'express'
 const router = express.Router()
 const MongoClient = require('mongodb').MongoClient
 let url = 'mongodb://localhost:27017'
-router.get("/send" , async (req, res) => {
+router.get("/date" , async (req, res) => {
     try {
-        let data = await getData()
-        let jsonData = JSON.parse(JSON.stringify(data))
-        res.send(jsonData)
+        let data
+        let results = await setNames()
+        if (results == []){
+          data = new Date("1996-07-17T20:41:50.971Z")
+        } else{
+          data = await getData()
+        }
+          //data = await getData()
+        //console.log(data)
+        res.send(data)
       } catch (error) {
         console.log(error);
       }
-    async function getData(){
+      async function getData(){
         return new Promise(async (resolve, reject)=>{
             let dataBase = []
             let results  =[]
@@ -24,15 +31,15 @@ router.get("/send" , async (req, res) => {
             }
             for(let index = 0; index<dataBase.length; index ++){
                 for(let i = 0; i < dataBase[index].length; i++){
-                    dataBase[index][i].Start = new Date(dataBase[index][i].Start)
-                    dataBase[index][i].End = new Date(dataBase[index][i].End)
+                  let createdAt = new Date(dataBase[index][i].createdAt)
+                  data.push(createdAt)
                 }
             }
-            for(let index = 0; index < dataBase.length; index ++){
-                data = data.concat(dataBase[index])
-            }
-            resolve(data)
-            return data
+            console.log(data.length)
+            let maximumDate = new Date(Math.max.apply(null, data))
+            //console.log(maximumDate)
+            resolve(maximumDate)
+            return maximumDate
         })
         })
     }
@@ -47,9 +54,13 @@ router.get("/send" , async (req, res) => {
                 if(name.startsWith("PerfData_") == true){
                     let newName = name
                     results.push(newName)
-                    resolve(results)
+                    //resolve(results)
+                } else{
+                  results = []
                 }
+                resolve(results)
             }
+            //console.log(results)
             return results
         })
     })
@@ -63,5 +74,5 @@ function readData(db, results, index){
     }))
 })
 }
-})
-export = router;
+    })
+export = router

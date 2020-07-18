@@ -44,24 +44,24 @@ router.post("/todos", async (req, res) => {
 
     async function saveData(jsonObj,CsvSchema){
       for(let index = 0; index < jsonObj.length; index ++){
-        for(let i = 0; i < jsonObj[index].length; i ++){
-          let run_group = jsonObj[index][i]['Run Group']
+        //for(let i = 0; i < jsonObj[index].length; i ++){
+          let run_group = jsonObj[index]['Run Group']
           let runGroup = 'PerfData_' + run_group
           mongoose.plugin(timeStamp)
           let PerformanceEntry = mongoose.model(runGroup,CsvSchema,runGroup)
-          await saveColection(PerformanceEntry, jsonObj, index, i)
-    }
+          await saveColection(PerformanceEntry, jsonObj, index)
+    //}
     }
   }
-async function saveColection(PerformanceEntry, jsonObj, index, i){
+async function saveColection(PerformanceEntry, jsonObj, index){
   let newSave = new PerformanceEntry({
-    Node : jsonObj[index][i].Node,
-    Session: jsonObj[index][i].Session,
-    Run: jsonObj[index][i].Run,
-    Run_Group: jsonObj[index][i]['Run Group'],
-    Start: jsonObj[index][i].Start,
-    End: jsonObj[index][i].End,
-    Elapsed_Ms:jsonObj[index][i]['Elapsed Ms']
+    Node : jsonObj[index].Node,
+    Session: jsonObj[index].Session,
+    Run: jsonObj[index].Run,
+    Run_Group: jsonObj[index]['Run Group'],
+    Start: jsonObj[index].Start,
+    End: jsonObj[index].End,
+    Elapsed_Ms:jsonObj[index]['Elapsed Ms']
   })
   newSave.save((err, result) => {
   if (err){
