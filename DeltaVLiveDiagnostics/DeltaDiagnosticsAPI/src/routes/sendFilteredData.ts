@@ -20,16 +20,10 @@ router.post("/sendFilteredData" , async (req, res) => {
             filter.push(body)
             let serachObject = filter[0][0]
             let number;
-            let date;
             try{
                 number = +serachObject
             } catch(eroor){
                 number = 0
-            }
-            try{
-                date = new Date(serachObject)
-            } catch(eroor){
-                date = null
             }
             
             //let Filter = "bav"
@@ -52,13 +46,9 @@ router.post("/sendFilteredData" , async (req, res) => {
             for(let index = 0; index < dataBase.length; index ++){
                 data = data.concat(dataBase[index])
             }
-            //for(let i = 0; i < data.length; i ++){
-                //filteredArray.push(data.filter((Filter.toUpperCase())))
-            //}
-            let filteredArray = data.filter(d=> d.Node.toUpperCase().includes(serachObject.toUpperCase()) || d.Session == number || d.Run.toUpperCase().includes(serachObject.toUpperCase()) || d.Run_Group.toUpperCase().includes(serachObject.toUpperCase()) || d.Start == serachObject || d.Elapsed_Ms >= number)
+
+            let filteredArray = data.filter(d=> d.Node.toUpperCase().includes(serachObject.toUpperCase()) || d.Session == number || d.Run.toUpperCase().includes(serachObject.toUpperCase()) || d.Run_Group.toUpperCase().includes(serachObject.toUpperCase()) || d.Elapsed_Ms >= number)
             resolve(filteredArray)
-            //console.log(JSON.parse(JSON.stringify(filteredArray)))
-            //console.log(filteredArray.length)
             return filteredArray
         })
         })
