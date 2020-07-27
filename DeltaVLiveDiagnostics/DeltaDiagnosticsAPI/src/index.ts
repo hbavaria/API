@@ -20,6 +20,7 @@ import perfRoute from "./routes/performance";
 import csvRoute from "./routes/StorePerformanceData";
 import sendRoute from "./routes/SendPerformanceData"
 import sendDate from "./routes/sendDate"
+import sendNode from "./routes/sendFilteredData"
 
 app.use(express.static("doc")); //serve api documentation files
 
@@ -40,6 +41,7 @@ app.use("/performance", perfRoute);
 app.use ("/StorePerformanceData", csvRoute)
 app.use("/SendPerformanceData", sendRoute)
 app.use("/sendDate", sendDate)
+app.use("/sendFilteredData", sendNode)
 
 //connect to mongodb
 mongoose.connect(
