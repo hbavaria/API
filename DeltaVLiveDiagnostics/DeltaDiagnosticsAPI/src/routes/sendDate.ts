@@ -14,6 +14,7 @@ router.get("/date" , async (req, res) => {
         } else{
         data = await getData()
         }
+        //console.log(data)
         res.send(data)
       } catch (error) {
         console.log(error);
@@ -42,7 +43,7 @@ router.get("/date" , async (req, res) => {
             db.listCollections().toArray(async function (err, names) {
             for(let index = 0 ; index < names.length; index ++){
                 let name = names[index].name
-                if(name == "Node"){
+                if(name == "History"){
                     let newName = name
                     results.push(newName)
                  }

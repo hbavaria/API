@@ -10,7 +10,6 @@ router.post("/sendFilteredData" , async (req, res) => {
         let data = await getData(body)
         let jsonObj = JSON.parse(JSON.stringify(data))
         res.send(jsonObj)
-        console.log(body)
       } catch (error) {
         console.log(error);
       }
@@ -20,9 +19,10 @@ router.post("/sendFilteredData" , async (req, res) => {
             filter.push(body)
             let serachObject = filter[0][0]
             let number;
+            let filteredArray = []
             try{
                 number = +serachObject
-            } catch(eroor){
+            } catch(error){
                 number = 0
             }
             
@@ -46,10 +46,21 @@ router.post("/sendFilteredData" , async (req, res) => {
             for(let index = 0; index < dataBase.length; index ++){
                 data = data.concat(dataBase[index])
             }
-
-            let filteredArray = data.filter(d=> d.Node.toUpperCase().includes(serachObject.toUpperCase()) || d.Session == number || d.Run.toUpperCase().includes(serachObject.toUpperCase()) || d.Run_Group.toUpperCase().includes(serachObject.toUpperCase()) || d.Elapsed_Ms >= number)
-            resolve(filteredArray)
-            return filteredArray
+            if(serachObject == ''){
+                filteredArray = data
+            } else {
+            filteredArray = data.filter(d=> d.Node.toUpperCase().includes(serachObject.toUpperCase()) || d.Session == number || d.Run.toUpperCase().includes(serachObject.toUpperCase()) || d.Run_Group.toUpperCase().includes(serachObject.toUpperCase()) || d.Elapsed_Ms >= number)}
+            const sortedUsers = filteredArray.sort((a, b) => {
+                const nameA = new Date(a.End)
+                const nameB = new Date(b.End)
+                if(nameA > nameB)
+                    return -1
+                if(nameA < nameB)
+                    return 1
+                else return a.Name - b.Name
+        })
+            resolve(sortedUsers)
+            return sortedUsers
         })
         })
     }

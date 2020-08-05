@@ -31,8 +31,18 @@ router.get("/send" , async (req, res) => {
             for(let index = 0; index < dataBase.length; index ++){
                 data = data.concat(dataBase[index])
             }
-            resolve(data)
-            return data
+            const sortedUsers = data.sort((a, b) => {
+                    const nameA = new Date(a.End)
+                    const nameB = new Date(b.End)
+                    if(nameA > nameB)
+                        return -1
+                    if(nameA < nameB)
+                        return 1
+                    else return a.Name - b.Name
+            })
+            //console.log(sortedUsers)
+            resolve(sortedUsers)
+            return sortedUsers
         })
         })
     }

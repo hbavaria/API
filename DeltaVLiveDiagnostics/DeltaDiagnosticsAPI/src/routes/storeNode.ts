@@ -26,21 +26,17 @@ router.post("/node" , async (req, res) => {
     async function saveData(Body,CsvSchema){
         let data = []
         let names = []
-          let PerformanceEntry = mongoose.model("Node", CsvSchema, "Node")
+          let PerformanceEntry = mongoose.model("History", CsvSchema, "History")
           let results = await getData()
           let name = await setNames()
           names.push(name)
           data.push(results)
-          console.log(Body.Node)
-          //console.log(data[0][0].Node)
           if(names[0].length != 0){
           for (let index = 0; index < data[0].length; index++){
               if(data[0][index].Node == Body.Node){
-                  console.log("If worked")
-                  PerformanceEntry.updateOne({'Node':data[0][index].Node}, {$set: {'End':Body.End}}).exec()
+                  PerformanceEntry.updateOne({'History':data[0][index].Node}, {$set: {'End':Body.End}}).exec()
                 //   await saveColection(PerformanceEntry, Body)
-              } else{
-                console.log("else worked")  
+              } else{ 
                 await saveColection(PerformanceEntry, Body)}
           }
         } else{await saveColection(PerformanceEntry, Body)}
@@ -62,7 +58,6 @@ async function getData(){
         let results  =[]
         let data
         results.push(await setNames())
-        //console.log(results)
         MongoClient.connect(url, async function(err, db) {
         var db = db.db("admin")
         for(let index = 0; index < results[0].length; index ++){

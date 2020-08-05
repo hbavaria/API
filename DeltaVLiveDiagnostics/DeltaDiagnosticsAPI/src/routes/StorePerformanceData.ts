@@ -105,7 +105,7 @@ async function storeDate(jsonObj, CsvSchema){
     }
   }
   names.push(name)
-let NodeEntry = mongoose.model("Node", CsvSchema, "Node")
+let NodeEntry = mongoose.model("History", CsvSchema, "History")
 if(names[0].length == 0){
   comparision = true
   saveNodeColection(NodeEntry, jsonObj, index)
@@ -117,7 +117,7 @@ if(names[0].length == 0){
       }
     }
     if(comparision == false){
-      console.log("wrong condition is excecuted")
+      //console.log("wrong condition is excecuted")
       saveNodeColection(NodeEntry, jsonObj, index)
     }
   } 
@@ -132,7 +132,7 @@ async function setNames(){
       db.listCollections().toArray(async function (err, names) {
       for(let index = 0 ; index < names.length; index ++){
           let name = names[index].name
-          if(name == "Node"){
+          if(name == "History"){
               let newName = name
               results.push(newName)
            }
